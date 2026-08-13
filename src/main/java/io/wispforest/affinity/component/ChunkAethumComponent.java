@@ -67,8 +67,9 @@ public class ChunkAethumComponent extends AethumComponent<Chunk> implements Serv
                 final var neighborChunk = world.getChunk(this.pos.x + dir.getOffsetX(),
                         this.pos.z + dir.getOffsetZ(), ChunkStatus.FULL);
 
-                if (neighborChunk == null) continue;
-                final var neighborComponent = neighborChunk.getComponent(AffinityComponents.CHUNK_AETHUM);
+                if (!(neighborChunk instanceof WorldChunk)) continue;
+                final var neighborComponent = AffinityComponents.CHUNK_AETHUM.getNullable(neighborChunk);
+                if (neighborComponent == null) continue;
 
                 this.neighbors[dir.getHorizontal()] = neighborComponent;
                 neighborComponent.neighbors[dir.getOpposite().getHorizontal()] = this;
